@@ -15,12 +15,14 @@ YORB 2020 is built in javascript and node.js from a number of different tools.
 
 ## Files:
 
-Server-side:
+**Server-side:**
 
 * [server.js](/server.js): this file contains all of the server logic
 * [config.js](/config.js): this file contains Mediasoup Router configuration settings
 
-Client-side:
+**Client-side (in `/src` directory):**
+
+These files get built into a file called `bundle.js` which resides in the `/public` directory.
 
 * [index.js](/src/index.js): this file contains all of the client side socket setup and Mediasoup signaling
 * [scene.js](/src/scene.js): this file exposes the `Scene` class which contains all of the three.js scene logic (interaction in the 3D space)
@@ -37,17 +39,35 @@ Client-side:
     cd YORB2020
     npm install
     ```
-3. YORB relies on a secure (HTTPS) server, and as such requires that you set up certificates.  On MacOS, you can run the following commands to generate self-signed certificates.  These certificates will work for local development:
+3. YORB relies on a secure (HTTPS) server, and as such requires that you set up certificates.  On MacOS, you can run the following commands to generate self-signed certificates.  These certificates will work for local development, but are not certified by a certificate authority and therefore will require you to make a security exception in your browser:
     ```bash
-    mkdir certs
+    # make a directory for the new certificates
+    mkdir certs 
     openssl req  -nodes -new -x509  -keyout certs/privkey.pem -out certs/fullchain.pem
     ```
-4. Create a new branch and start developing:
-    ```bash
-    git checkout -b add-feature
-    ```
     
-5. Start the build system and node server:
+4. In [config.js](/config.js), set values for the `httpIp` and `webRtcTransport.listenIps` to match your IP on the local network.  For instance, if your IP on the local network is `192.168.1.145`, those values would look like this:
+
     ```
-    npm start
+    httpIp: '192.168.1.145'  
+
+    ...
+
+    webRtcTransport: {
+        listenIps: [
+        { ip: '192.168.1.145', announcedIp: null } 
+        ],
+        ...
+    }
     ```
+    Note that it may be necessary to set `announdedIp` value to your remote IP as per [this mediasoup documentation](https://mediasoup.org/documentation/v3/mediasoup/api/#TransportListenIp).
+
+5. Start the build system and node server with sudo:
+    ```
+    sudo npm start
+    ```
+
+
+## Hosting YORB on a Server:
+
+* To do... fill out this documentation

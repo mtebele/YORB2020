@@ -27,7 +27,7 @@ These files get built into a file called `bundle.js` which resides in the `/publ
 * [index.js](/src/index.js): this file contains all of the client side socket setup and Mediasoup signaling
 * [scene.js](/src/scene.js): this file exposes the `Scene` class which contains all of the three.js scene logic (interaction in the 3D space)
 
-## Local Developement Setup:
+## Local Development Setup:
 
 
 1. Clone or fork the repository and download a local copy:

@@ -40,6 +40,9 @@ These files get built into a file called `bundle.js` which resides in the `/publ
     npm install
     ```
 3. YORB relies on a secure (HTTPS) server, and as such requires that you set up certificates.  On MacOS, you can run the following commands to generate self-signed certificates.  These certificates will work for local development, but are not certified by a certificate authority and therefore will require you to make a security exception in your browser:
+
+    Note: some of the dependencies require `Node` version >= 10.
+
     ```bash
     # make a directory for the new certificates
     mkdir certs 
@@ -70,4 +73,25 @@ These files get built into a file called `bundle.js` which resides in the `/publ
 
 ## Hosting YORB on a Server:
 
-* To do... fill out this documentation
+1. Follow steps 1, 2 and 4 from the _Local Development Setup_
+
+2. You will require certificates certified by a CA to access without a security alert on the server. 
+   If you have a URL set to be directed to you server, you can use the
+   instructions provided in https://certbot.eff.org/ , provided port 80 is
+   exposed.
+
+3. The WebRTC protocol used by Mediasoup requires communicating through ports
+   other than HTTP/HTTPS. Default ports are 40000 to 49999 as configured in `config.js`:
+   ```
+   mediasoup: {
+     worker: {
+       rtcMinPort: 40000,
+       rtcMaxPort: 49999,
+       logLevel: 'debug',
+       ...
+     }
+   }
+   ```
+
+   The server needs to have this ports exposed in both directions for UDP and TCP
+   communications. 
